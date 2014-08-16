@@ -403,6 +403,7 @@
 				0332B8CB199F7D4D0023C811 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0332B8CC199F7D4D0023C811 /* Build configuration list for PBXNativeTarget "FriendSwapTests" */ = {
 			isa = XCConfigurationList;
@@ -411,6 +412,7 @@
 				0332B8CE199F7D4D0023C811 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
