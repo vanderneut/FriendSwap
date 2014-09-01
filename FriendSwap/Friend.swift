@@ -36,7 +36,7 @@ enum FriendType: Int, Printable
     }
 }
 
-class Friend: Printable
+class Friend: Printable, Hashable
 {
     var column: Int                 // vertical position in the 2D grid
     var row: Int                    // horizontal position in the 2D grid
@@ -49,9 +49,23 @@ class Friend: Printable
         self.row = row
         self.friendType = friendType
     }
+
+    /* Hashable: */
+    var hashValue: Int
+    {
+        return row * 10 + column
+    }
     
+    /* Printable: */
     var description: String
     {
         return "type:\(friendType) square:(\(column),\(row))"
     }
 }
+
+/* Equatable: */
+func ==(lhs: Friend, rhs: Friend) -> Bool
+{
+    return lhs.column == rhs.column && lhs.row == rhs.row
+}
+
