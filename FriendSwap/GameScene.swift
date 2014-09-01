@@ -10,14 +10,13 @@ import SpriteKit
 
 class GameScene: SKScene
 {
-    required init(coder aDecoder: NSCoder!)
+    required init(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
         setup()
     }
     
-//    override init(size: CGSize)
-    init(size: CGSize)
+    override init(size: CGSize)
     {
         super.init(size: size)
         setup()

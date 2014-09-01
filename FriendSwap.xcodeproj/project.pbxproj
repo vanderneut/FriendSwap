@@ -15,6 +15,8 @@
 		0332B8BA199F7D4D0023C811 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0332B8B9199F7D4D0023C811 /* Images.xcassets */; };
 		0332B8C6199F7D4D0023C811 /* FriendSwapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0332B8C5199F7D4D0023C811 /* FriendSwapTests.swift */; };
 		03B1206F19B3C1D400C5864F /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B1206E19B3C1D400C5864F /* Friend.swift */; };
+		03B1207119B3C6B500C5864F /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B1207019B3C6B500C5864F /* Array2D.swift */; };
+		03B1207319B3C8EB00C5864F /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B1207219B3C8EB00C5864F /* Set.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,8 @@
 		0332B8C4199F7D4D0023C811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0332B8C5199F7D4D0023C811 /* FriendSwapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSwapTests.swift; sourceTree = "<group>"; };
 		03B1206E19B3C1D400C5864F /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		03B1207019B3C6B500C5864F /* Array2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
+		03B1207219B3C8EB00C5864F /* Set.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +93,8 @@
 				0332B8B9199F7D4D0023C811 /* Images.xcassets */,
 				0332B8AC199F7D4D0023C811 /* Supporting Files */,
 				03B1206E19B3C1D400C5864F /* Friend.swift */,
+				03B1207019B3C6B500C5864F /* Array2D.swift */,
+				03B1207219B3C8EB00C5864F /* Set.swift */,
 			);
 			path = FriendSwap;
 			sourceTree = "<group>";
@@ -220,8 +226,10 @@
 			files = (
 				0332B8B3199F7D4D0023C811 /* GameScene.swift in Sources */,
 				0332B8B5199F7D4D0023C811 /* GameViewController.swift in Sources */,
+				03B1207319B3C8EB00C5864F /* Set.swift in Sources */,
 				0332B8AF199F7D4D0023C811 /* AppDelegate.swift in Sources */,
 				03B1206F19B3C1D400C5864F /* Friend.swift in Sources */,
+				03B1207119B3C6B500C5864F /* Array2D.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
