@@ -10,6 +10,16 @@ import SpriteKit
 
 class GameScene: SKScene
 {
+    // MARK: - Properties:
+    
+    var level:      Level!              // public reference to current level (no value initially)
+    let TileWidth:  CGFloat = 32.0      // constant for width of each tile
+    let TileHeight: CGFloat = 36.0      // constant for height of each tile
+    let gameLayer = SKNode()            // base layer, centered on screen, container for all other layers
+    let friendsLayer = SKNode()         // holds friend sprites, is child of gameLayer
+    
+    // MARK: - Methods:
+    
     required init(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
@@ -28,6 +38,33 @@ class GameScene: SKScene
         
         let background = SKSpriteNode(imageNamed: "Background")
         addChild(background)
+        
+        addChild(gameLayer)
+        
+        let layerPosition = CGPoint(
+            x: -TileWidth * 0.5 * CGFloat(NumColumns),
+            y: -TileHeight * 0.5 * CGFloat(NumRows))
+        
+        friendsLayer.position = layerPosition
+        gameLayer.addChild(friendsLayer)
+    }
+    
+    func addSpritesForFriends(friends: Set<Friend>)
+    {
+        for friend in friends
+        {
+            let sprite = SKSpriteNode(imageNamed: friend.friendType.spriteName)
+            sprite.position = pointForColumn(friend.column, row: friend.row)
+            friendsLayer.addChild(sprite)
+            friend.sprite = sprite
+        }
+    }
+    
+    func pointForColumn(column: Int, row: Int) -> CGPoint
+    {
+        return CGPoint(
+            x: CGFloat(column) * TileWidth + 0.5 * TileWidth,
+            y: CGFloat(row) * TileHeight + 0.5 * TileHeight)
     }
     
     override func didMoveToView(view: SKView)

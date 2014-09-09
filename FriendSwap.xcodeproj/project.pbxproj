@@ -14,6 +14,7 @@
 		0332B8B8199F7D4D0023C811 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0332B8B6199F7D4D0023C811 /* Main.storyboard */; };
 		0332B8BA199F7D4D0023C811 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0332B8B9199F7D4D0023C811 /* Images.xcassets */; };
 		0332B8C6199F7D4D0023C811 /* FriendSwapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0332B8C5199F7D4D0023C811 /* FriendSwapTests.swift */; };
+		0356C1AC19BF0A54002189C6 /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0356C1AB19BF0A54002189C6 /* Sprites.atlas */; };
 		03B1206F19B3C1D400C5864F /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B1206E19B3C1D400C5864F /* Friend.swift */; };
 		03B1207119B3C6B500C5864F /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B1207019B3C6B500C5864F /* Array2D.swift */; };
 		03B1207319B3C8EB00C5864F /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B1207219B3C8EB00C5864F /* Set.swift */; };
@@ -42,6 +43,7 @@
 		0332B8BF199F7D4D0023C811 /* FriendSwapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FriendSwapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0332B8C4199F7D4D0023C811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0332B8C5199F7D4D0023C811 /* FriendSwapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSwapTests.swift; sourceTree = "<group>"; };
+		0356C1AB19BF0A54002189C6 /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Sprites.atlas; sourceTree = "<group>"; };
 		03B1206E19B3C1D400C5864F /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		03B1207019B3C6B500C5864F /* Array2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
 		03B1207219B3C8EB00C5864F /* Set.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				0332B8B4199F7D4D0023C811 /* GameViewController.swift */,
 				0332B8B6199F7D4D0023C811 /* Main.storyboard */,
 				0332B8B9199F7D4D0023C811 /* Images.xcassets */,
+				0356C1AB19BF0A54002189C6 /* Sprites.atlas */,
 				0332B8AC199F7D4D0023C811 /* Supporting Files */,
 				03B1206E19B3C1D400C5864F /* Friend.swift */,
 				03B1207019B3C6B500C5864F /* Array2D.swift */,
@@ -209,6 +212,7 @@
 			files = (
 				0332B8BA199F7D4D0023C811 /* Images.xcassets in Resources */,
 				0332B8B1199F7D4D0023C811 /* GameScene.sks in Resources */,
+				0356C1AC19BF0A54002189C6 /* Sprites.atlas in Resources */,
 				0332B8B8199F7D4D0023C811 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

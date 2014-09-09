@@ -11,7 +11,25 @@ import SpriteKit
 
 class GameViewController: UIViewController
 {
+    // MARK: - Properties:
+    
     var scene: GameScene!
+    var level: Level!
+
+    // MARK: - Methods:
+    
+    func beginGame()
+    {
+        shuffle()
+    }
+    
+    func shuffle()
+    {
+        let newFriends = level.shuffle()
+        scene.addSpritesForFriends(newFriends)
+    }
+    
+    // MARK: - Overrides:
     
     override func viewDidLoad()
     {
@@ -30,7 +48,15 @@ class GameViewController: UIViewController
         scene = GameScene(size: skView.bounds.size)
         scene.scaleMode = .AspectFill
         
+        // Create the level:
+        level = Level()
+        scene.level = level
+        
+        // Present the scene:
         skView.presentScene(scene)
+        
+        // Kick things off:
+        beginGame()
     }
 
     override func shouldAutorotate() -> Bool
