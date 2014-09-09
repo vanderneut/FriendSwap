@@ -25,6 +25,11 @@ class Level
     
     func shuffle() -> Set<Friend>
     {
+        return createInitialFriends()
+    }
+    
+    func createInitialFriends() -> Set<Friend>
+    {
         var set = Set<Friend>()
         
         // Loop through rows and columns of 2D array:
