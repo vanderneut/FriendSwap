@@ -49,7 +49,7 @@ class GameViewController: UIViewController
         scene.scaleMode = .AspectFill
         
         // Create the level:
-        level = Level()
+        level = Level(filename: "Level_4")
         scene.level = level
         
         // Present the scene:
