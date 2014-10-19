@@ -17,6 +17,7 @@ class GameScene: SKScene
     let TileHeight: CGFloat = 36.0      // constant for height of each tile
     let gameLayer = SKNode()            // base layer, centered on screen, container for all other layers
     let friendsLayer = SKNode()         // holds friend sprites, is child of gameLayer
+    let tilesLayer = SKNode()           // holds the background tile images
     
     // MARK: - Methods:
     
@@ -45,8 +46,27 @@ class GameScene: SKScene
             x: -TileWidth * 0.5 * CGFloat(NumColumns),
             y: -TileHeight * 0.5 * CGFloat(NumRows))
         
+        tilesLayer.position = layerPosition
+        gameLayer.addChild(tilesLayer)
+
         friendsLayer.position = layerPosition
         gameLayer.addChild(friendsLayer)
+    }
+    
+    func addTiles()
+    {
+        for row in 0..<NumRows
+        {
+            for column in 0..<NumColumns
+            {
+                if let tile = level.tileAtColumn(column, row: row)
+                {
+                    let tileNode = SKSpriteNode(imageNamed: "Tile")
+                    tileNode.position = pointForColumn(column, row: row)
+                    tilesLayer.addChild(tileNode)
+                }
+            }
+        }
     }
     
     func addSpritesForFriends(friends: Set<Friend>)
