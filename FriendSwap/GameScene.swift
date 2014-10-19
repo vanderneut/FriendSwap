@@ -10,6 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene
 {
+    // -------------------------------------------------------------------------
     // MARK: - Properties:
     
     var level:      Level!              // public reference to current level (no value initially)
@@ -18,7 +19,10 @@ class GameScene: SKScene
     let gameLayer = SKNode()            // base layer, centered on screen, container for all other layers
     let friendsLayer = SKNode()         // holds friend sprites, is child of gameLayer
     let tilesLayer = SKNode()           // holds the background tile images
+    var swipeFromColumn: Int?           // swipe start column
+    var swipeFromRow: Int?              // swipe start row
     
+    // -------------------------------------------------------------------------
     // MARK: - Methods:
     
     required init(coder aDecoder: NSCoder)
@@ -51,6 +55,9 @@ class GameScene: SKScene
 
         friendsLayer.position = layerPosition
         gameLayer.addChild(friendsLayer)
+        
+        swipeFromColumn = nil
+        swipeFromRow = nil
     }
     
     func addTiles()
@@ -87,40 +94,108 @@ class GameScene: SKScene
             y: CGFloat(row) * TileHeight + 0.5 * TileHeight)
     }
     
-    override func didMoveToView(view: SKView)
+    func convertPoint(point: CGPoint) -> (success: Bool, column: Int, row: Int)
     {
-        /* Setup your scene here */
-//        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-//        myLabel.text = "Hello, World!";
-//        myLabel.fontSize = 65;
-//        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
-//        
-//        self.addChild(myLabel)
+        if point.x >= 0 && point.x < CGFloat(NumColumns) * TileWidth &&
+           point.y >= 0 && point.y < CGFloat(NumRows) * TileHeight
+        {
+            return (true, Int(point.x / TileWidth), Int(point.y / TileHeight))
+        }
+        else
+        {
+            return (false, 0, 0)
+        }
     }
+    
+    func trySwapHorizontal(horzDelta: Int, vertical vertDelta: Int)
+    {
+        // Calculate row/column of the friend to swap:
+        let toColumn = swipeFromColumn! + horzDelta
+        let toRow    = swipeFromRow!    + vertDelta
+    
+        // If the swipe-end row/column is outside the grid, then ignore the swipe altogether:
+        if toColumn < 0 || toColumn >= NumColumns { return }   /* RETURN when swiping off the side edges of the level */
+        if toRow    < 0 || toRow    >= NumRows    { return }   /* RETURN when swiping off top or bottom edge of the level */
+        
+        // Make sure there is a friend to swap with at this location (i.e. make sure this is not a gap in the level):
+        if let toFriend = level.friendAtColumn(toColumn, row: toRow)
+        {
+            if let fromFriend = level.friendAtColumn(swipeFromColumn!, row: swipeFromRow!)
+            {
+                // Everything checked out OK, so let's do the friend swap:
+                println("**** swapping \(fromFriend) with \(toFriend)****")
+            }
+        }
+    }
+    
+    // -------------------------------------------------------------------------
+    // MARK: - Touches:
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
     {
         /* Called when a touch begins */
-//        
-//        for touch: AnyObject in touches {
-//            let location = touch.locationInNode(self)
-//            
-//            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-//            
-//            sprite.xScale = 0.5
-//            sprite.yScale = 0.5
-//            sprite.position = location
-//            
-//            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-//            
-//            sprite.runAction(SKAction.repeatActionForever(action))
-//            
-//            self.addChild(sprite)
-//        }
+        
+        // Convert touch location to a point on the friends layer:
+        let touch = touches.anyObject() as UITouch
+        let location = touch.locationInNode(friendsLayer)
+        
+        // Test whether this is a valid swipe starting location on the level grid:
+        let (success, column, row) = convertPoint(location)
+        if (success)
+        {
+            // Make sure it's not an empty square:
+            if let friend = level.friendAtColumn(column, row: row)
+            {
+                // Record this starting point of the swipe, so we can compare later to get direction:
+                swipeFromColumn = column
+                swipeFromRow = row
+                
+                println("TOUCHED began on \(friend)")
+            }
+        }
     }
-   
-    override func update(currentTime: CFTimeInterval)
+    
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
     {
-        /* Called before each frame is rendered */
+        // Ignore the swipe when the swipe started outside the valid area or if the friends have already been swapped:
+        if swipeFromColumn == nil { return }          /* RETURN when invalid starting location */
+        
+        // Calculate the row and column for the current finger position:
+        let touch = touches.anyObject() as UITouch
+        let location = touch.locationInNode(friendsLayer)
+        
+        let (success, column, row) = convertPoint(location)
+        if success
+        {
+            // Figure out swipe direction by comparing current row/column to starting row/column:
+            // NOTE: use the ! to unwrap the values from the optional variables:
+            var horzDelta = 0, vertDelta = 0
+            if      column < swipeFromColumn! { horzDelta = -1 }   // swipe left
+            else if column > swipeFromColumn! { horzDelta =  1 }   // swipe right
+            else if row    < swipeFromRow!    { vertDelta = -1 }   // swipe down
+            else if row    > swipeFromRow!    { vertDelta =  1 }   // swipe up
+            
+            println("TOUCHES MOVED: (\(horzDelta), \(vertDelta))")
+            
+            // Only perform the swap if the user swiped out of the starting square:
+            if horzDelta != 0 || vertDelta != 0
+            {
+                trySwapHorizontal(horzDelta, vertical: vertDelta)
+                
+                // Ignore rest of this swipe motion:
+                swipeFromColumn = nil
+            }
+        }
+    }
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
+    {
+        swipeFromColumn = nil
+        swipeFromRow = nil
+    }
+    
+    override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!)
+    {
+        touchesEnded(touches, withEvent: event)
     }
 }
