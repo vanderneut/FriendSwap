@@ -21,6 +21,7 @@ class GameScene: SKScene
     let tilesLayer = SKNode()           // holds the background tile images
     var swipeFromColumn: Int?           // swipe start column
     var swipeFromRow: Int?              // swipe start row
+    var swipeHandler: ((Swap) -> ())?   // way to communicate back to GameViewController that a swap must be attempted (a closure instead of a delegate)
     
     // -------------------------------------------------------------------------
     // MARK: - Methods:
@@ -124,8 +125,32 @@ class GameScene: SKScene
             {
                 // Everything checked out OK, so let's do the friend swap:
                 println("**** swapping \(fromFriend) with \(toFriend)****")
+                if let handler = swipeHandler
+                {
+                    let swap = Swap(friendA: fromFriend, friendB: toFriend)
+                    handler(swap)
+                }
             }
         }
+    }
+    
+    func animateSwap(swap: Swap, completion: () -> ())
+    {
+        let spriteA = swap.friendA.sprite!
+        let spriteB = swap.friendB.sprite!
+        
+        spriteA.zPosition = 100
+        spriteB.zPosition =  90
+        
+        let Duration: NSTimeInterval = 0.3
+        
+        let moveA = SKAction.moveTo(spriteB.position, duration: Duration)
+        moveA.timingMode = .EaseOut
+        spriteA.runAction(moveA, completion: completion)
+        
+        let moveB = SKAction.moveTo(spriteA.position, duration: Duration)
+        moveB.timingMode = .EaseOut
+        spriteB.runAction(moveB)
     }
     
     // -------------------------------------------------------------------------
@@ -149,8 +174,6 @@ class GameScene: SKScene
                 // Record this starting point of the swipe, so we can compare later to get direction:
                 swipeFromColumn = column
                 swipeFromRow = row
-                
-                println("TOUCHED began on \(friend)")
             }
         }
     }
@@ -174,8 +197,6 @@ class GameScene: SKScene
             else if column > swipeFromColumn! { horzDelta =  1 }   // swipe right
             else if row    < swipeFromRow!    { vertDelta = -1 }   // swipe down
             else if row    > swipeFromRow!    { vertDelta =  1 }   // swipe up
-            
-            println("TOUCHES MOVED: (\(horzDelta), \(vertDelta))")
             
             // Only perform the swap if the user swiped out of the starting square:
             if horzDelta != 0 || vertDelta != 0

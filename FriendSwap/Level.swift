@@ -96,4 +96,20 @@ class Level
         assert(row >= 0 && row < NumRows)
         return tiles[column, row]
     }
+    
+    func performSwap(swap: Swap)
+    {
+        let columnA = swap.friendA.column
+        let rowA    = swap.friendA.row
+        let columnB = swap.friendB.column
+        let rowB    = swap.friendB.row
+        
+        friends[columnA, rowA] = swap.friendB
+        swap.friendB.column = columnA
+        swap.friendB.row    = rowA
+        
+        friends[columnB, rowB] = swap.friendA
+        swap.friendA.column = columnB
+        swap.friendA.row    = rowB
+    }
 }

@@ -29,6 +29,18 @@ class GameViewController: UIViewController
         scene.addSpritesForFriends(newFriends)
     }
     
+    func handleSwipe(swap: Swap)
+    {
+        view.userInteractionEnabled = false
+        
+        level.performSwap(swap)
+        
+        scene.animateSwap(swap)     // using trailing closure syntax here instead of "completion: {}"
+        {
+            self.view.userInteractionEnabled = true
+        }
+    }
+    
     // MARK: - Overrides:
     
     override func viewDidLoad()
@@ -52,6 +64,7 @@ class GameViewController: UIViewController
         level = Level(filename: "Level_4")
         scene.level = level
         scene.addTiles()
+        scene.swipeHandler = handleSwipe
         
         // Present the scene:
         skView.presentScene(scene)

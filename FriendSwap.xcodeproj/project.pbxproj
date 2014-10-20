@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03305F5E19F4828500BF3AF5 /* Swap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03305F5D19F4828500BF3AF5 /* Swap.swift */; };
 		0332B8AF199F7D4D0023C811 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0332B8AE199F7D4D0023C811 /* AppDelegate.swift */; };
 		0332B8B1199F7D4D0023C811 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0332B8B0199F7D4D0023C811 /* GameScene.sks */; };
 		0332B8B3199F7D4D0023C811 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0332B8B2199F7D4D0023C811 /* GameScene.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03305F5D19F4828500BF3AF5 /* Swap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Swap.swift; sourceTree = "<group>"; };
 		0332B8A9199F7D4D0023C811 /* FriendSwap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FriendSwap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0332B8AD199F7D4D0023C811 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0332B8AE199F7D4D0023C811 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				03E1B36F19B414B2007DF056 /* Level.swift */,
 				0356C1C619BF0D28002189C6 /* Tile.swift */,
 				0356C1C819BF0E8F002189C6 /* Extensions.swift */,
+				03305F5D19F4828500BF3AF5 /* Swap.swift */,
 			);
 			path = FriendSwap;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				0356C1C919BF0E8F002189C6 /* Extensions.swift in Sources */,
 				03E1B37019B414B2007DF056 /* Level.swift in Sources */,
 				0332B8B5199F7D4D0023C811 /* GameViewController.swift in Sources */,
+				03305F5E19F4828500BF3AF5 /* Swap.swift in Sources */,
 				0356C1C719BF0D28002189C6 /* Tile.swift in Sources */,
 				03B1207319B3C8EB00C5864F /* Set.swift in Sources */,
 				0332B8AF199F7D4D0023C811 /* AppDelegate.swift in Sources */,
