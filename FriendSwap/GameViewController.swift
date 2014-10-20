@@ -61,7 +61,7 @@ class GameViewController: UIViewController
         scene.scaleMode = .AspectFill
         
         // Create the level:
-        level = Level(filename: "Level_4")
+        level = Level(filename: "Level_1")
         scene.level = level
         scene.addTiles()
         scene.swipeHandler = handleSwipe

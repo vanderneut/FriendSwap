@@ -74,8 +74,18 @@ class Level
             {
                 if tiles[column, row] != nil
                 {
-                    // Pick random friend:
-                    var friendType = FriendType.random()
+                    // Pick random friend, and keep doing that until we do NOT have three in a row or column:
+                    var friendType: FriendType
+                    do
+                    {
+                        friendType = FriendType.random()
+                    }
+                    while (column >= 2 &&
+                           friends[column - 1, row]?.friendType == friendType &&
+                           friends[column - 2, row]?.friendType == friendType)
+                       || (row >= 2 &&
+                           friends[column, row - 1]?.friendType == friendType &&
+                           friends[column, row - 2]?.friendType == friendType)
                     
                     // Create new friend object and add to the grid:
                     let friend = Friend(column: column, row: row, friendType: friendType)
