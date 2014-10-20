@@ -13,15 +13,16 @@ class GameScene: SKScene
     // -------------------------------------------------------------------------
     // MARK: - Properties:
     
-    var level:      Level!              // public reference to current level (no value initially)
-    let TileWidth:  CGFloat = 32.0      // constant for width of each tile
-    let TileHeight: CGFloat = 36.0      // constant for height of each tile
-    let gameLayer = SKNode()            // base layer, centered on screen, container for all other layers
-    let friendsLayer = SKNode()         // holds friend sprites, is child of gameLayer
-    let tilesLayer = SKNode()           // holds the background tile images
-    var swipeFromColumn: Int?           // swipe start column
-    var swipeFromRow: Int?              // swipe start row
-    var swipeHandler: ((Swap) -> ())?   // way to communicate back to GameViewController that a swap must be attempted (a closure instead of a delegate)
+    var level:      Level!                // public reference to current level (no value initially)
+    let TileWidth:  CGFloat = 32.0        // constant for width of each tile
+    let TileHeight: CGFloat = 36.0        // constant for height of each tile
+    let gameLayer = SKNode()              // base layer, centered on screen, container for all other layers
+    let friendsLayer = SKNode()           // holds friend sprites, is child of gameLayer
+    let tilesLayer = SKNode()             // holds the background tile images
+    var swipeFromColumn: Int?             // swipe start column
+    var swipeFromRow: Int?                // swipe start row
+    var swipeHandler: ((Swap) -> ())?     // way to communicate back to GameViewController that a swap must be attempted (a closure instead of a delegate)
+    var selectionSprite = SKSpriteNode()  // sprite used to show high-lighted friend
     
     // -------------------------------------------------------------------------
     // MARK: - Methods:
@@ -153,6 +154,34 @@ class GameScene: SKScene
         spriteB.runAction(moveB)
     }
     
+    // TODO: change this whole approach to high-lighting when using Facebook profile images instead
+    func showSelectionIndicatorForFriend(friend: Friend)
+    {
+        if selectionSprite.parent != nil
+        {
+            selectionSprite.removeFromParent()
+        }
+        
+        if let sprite = friend.sprite
+        {
+            let texture = SKTexture(imageNamed: friend.friendType.highlightedSpriteName)
+            selectionSprite.size = texture.size()
+            selectionSprite.runAction(SKAction.setTexture(texture))     // <- give it the correct size
+            
+            sprite.addChild(selectionSprite)    // <- have it move along with the original friend image in any swap animation
+            selectionSprite.alpha = 1.0
+        }
+    }
+    
+    func hideSelectionIndicator()
+    {
+        selectionSprite.runAction(SKAction.sequence(
+            [
+                SKAction.fadeOutWithDuration(0.3),
+                SKAction.removeFromParent()
+            ]))
+    }
+    
     // -------------------------------------------------------------------------
     // MARK: - Touches:
     
@@ -174,6 +203,7 @@ class GameScene: SKScene
                 // Record this starting point of the swipe, so we can compare later to get direction:
                 swipeFromColumn = column
                 swipeFromRow = row
+                showSelectionIndicatorForFriend(friend)
             }
         }
     }
@@ -202,6 +232,7 @@ class GameScene: SKScene
             if horzDelta != 0 || vertDelta != 0
             {
                 trySwapHorizontal(horzDelta, vertical: vertDelta)
+                hideSelectionIndicator()
                 
                 // Ignore rest of this swipe motion:
                 swipeFromColumn = nil
@@ -211,6 +242,12 @@ class GameScene: SKScene
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
     {
+        // Fade out the high-lighted sprite if the user just tapped the screen and didn't swipe:
+        if selectionSprite.parent != nil && swipeFromColumn != nil
+        {
+            hideSelectionIndicator()
+        }
+
         swipeFromColumn = nil
         swipeFromRow = nil
     }
