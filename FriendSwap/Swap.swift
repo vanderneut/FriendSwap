@@ -8,7 +8,13 @@
 //  Copyright (c) 2014 Erik van der Neut. All rights reserved.
 //
 
-struct Swap: Printable
+func ==(lhs: Swap, rhs: Swap) -> Bool
+{
+    return (lhs.friendA.hashValue == rhs.friendA.hashValue && lhs.friendB.hashValue == rhs.friendB.hashValue) ||
+           (lhs.friendB.hashValue == rhs.friendA.hashValue && lhs.friendA.hashValue == rhs.friendB.hashValue)
+}
+
+struct Swap: Printable, Hashable
 {
     let friendA: Friend
     let friendB: Friend
@@ -22,5 +28,11 @@ struct Swap: Printable
     var description: String
     {
         return "Swap \(friendA) with \(friendB)"
+    }
+    
+    var hashValue: Int
+    {
+        // Combine hash values of the two friends with the exclusive-or (XOR) operator:
+        return friendA.hashValue ^ friendB.hashValue
     }
 }

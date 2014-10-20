@@ -8,20 +8,30 @@
 
 import Foundation
 
+// -------------------------------------------------------------------------
 // MARK: - Constants:
 
 let NumColumns = 9
 let NumRows = 9
 
+// -------------------------------------------------------------------------
 // MARK: - Class definition:
 
 class Level
 {
-    // MARK: - Properties:
+    // -------------------------------------------------------------------------
+    // MARK: - Public Properties:
     
     let friends = Array2D<Friend>(columns: NumColumns, rows: NumRows)       // friends keeps track of the friend objects in the level
     let tiles   = Array2D<Tile>(columns: NumColumns, rows: NumRows)         // tiles describes structure of the level
     
+    
+    // -------------------------------------------------------------------------
+    // MARK: - Private Properties:
+    
+    private var possibleSwaps = Set<Swap>()
+    
+    // -------------------------------------------------------------------------
     // MARK: - Methods:
     
     init(filename: String)
@@ -60,7 +70,17 @@ class Level
     
     func shuffle() -> Set<Friend>
     {
-        return createInitialFriends()
+        // Create the initial set of friends, and keep doing it if necessary until there is at least one possible swap:
+        var set: Set<Friend>
+        do
+        {
+            set = createInitialFriends()
+            detectPossibleSwaps()
+            println("Possible swaps:\n\(possibleSwaps)")
+        }
+        while possibleSwaps.count == 0
+        
+        return set
     }
     
     func createInitialFriends() -> Set<Friend>
@@ -98,6 +118,83 @@ class Level
         }
         
         return set
+    }
+    
+    func detectPossibleSwaps()
+    {
+        var set = Set<Swap>()
+        
+        for row in 0..<NumRows
+        {
+            for column in 0..<NumColumns
+            {
+                if let friend = friends[column, row]
+                {
+                    // Check to see if it's possible to swap this friend with the one on the right:
+                    if column < NumColumns - 1
+                    {
+                        // Is there a friend in this spot? If no tile, then no friend:
+                        if let other = friends[column + 1, row]
+                        {
+                            // Swap them:
+                            friends[column,     row] = other
+                            friends[column + 1, row] = friend
+                            
+                            // Check to see whether either friend is now part of a chain:
+                            if hasChainAtColumn(column + 1, row: row) || hasChainAtColumn(column, row: row)
+                            {
+                                set.addElement(Swap(friendA: friend, friendB: other))
+                            }
+                            
+                            // Swap them back:
+                            friends[column + 1, row] = other
+                            friends[column,     row] = friend
+                        }
+                    }
+                    
+                    // Check to see if it's possible to swap this friend with the one above it:
+                    if row < NumRows - 1
+                    {
+                        // Is there a friend in this spot? If no tile, then no friend:
+                        if let other = friends[column, row + 1]
+                        {
+                            // Swap them:
+                            friends[column, row    ] = other
+                            friends[column, row + 1] = friend
+                            
+                            // Check to see whether either friend is now part of a chain:
+                            if hasChainAtColumn(column, row: row + 1) || hasChainAtColumn(column, row: row)
+                            {
+                                set.addElement(Swap(friendA: friend, friendB: other))
+                            }
+                            
+                            // Swap them back:
+                            friends[column, row + 1] = other
+                            friends[column, row    ] = friend
+                        }
+                    }
+                }
+            }
+        }
+        
+        possibleSwaps = set
+    }
+    
+    private func hasChainAtColumn(column: Int, row: Int) -> Bool
+    {
+        let friendType = friends[column, row]!.friendType
+        
+        var horzLength = 1
+        for var i = column - 1; i >= 0 && friends[i, row]?.friendType == friendType; --i, ++horzLength { }
+        for var i = column + 1; i < NumColumns && friends[i, row]?.friendType == friendType; ++i, ++horzLength { }
+        if horzLength >= 3 { return true }      /* RETURN true when horizontal chain found */
+        
+        var vertLength = 1
+        for var i = row - 1; i >= 0 && friends[column, i]?.friendType == friendType; --i, ++vertLength { }
+        for var i = row + 1; i < NumRows && friends[column, i]?.friendType == friendType; ++i, ++vertLength { }
+        if vertLength >= 3 { return true }      /* RETURN true when vertical chain found */
+        
+        return false                            /* RETURN false when no chain found at all */
     }
     
     func tileAtColumn(column: Int, row: Int) -> Tile?
