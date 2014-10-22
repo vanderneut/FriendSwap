@@ -25,7 +25,6 @@ class Level
     let friends = Array2D<Friend>(columns: NumColumns, rows: NumRows)       // friends keeps track of the friend objects in the level
     let tiles   = Array2D<Tile>(columns: NumColumns, rows: NumRows)         // tiles describes structure of the level
     
-    
     // -------------------------------------------------------------------------
     // MARK: - Private Properties:
     
@@ -218,5 +217,12 @@ class Level
         friends[columnB, rowB] = swap.friendA
         swap.friendA.column = columnB
         swap.friendA.row    = rowB
+    }
+    
+    func isPossibleSwap(swap: Swap) -> Bool
+    {
+        return possibleSwaps.containsElement(swap)
+        
+        // NOTE: this works because we specified a custom == operator on Swap
     }
 }

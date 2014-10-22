@@ -135,7 +135,7 @@ class GameScene: SKScene
         }
     }
     
-    func animateSwap(swap: Swap, completion: () -> ())
+    func animateValidSwap(swap: Swap, completion: () -> ())
     {
         let spriteA = swap.friendA.sprite!
         let spriteB = swap.friendB.sprite!
@@ -145,13 +145,34 @@ class GameScene: SKScene
         
         let Duration: NSTimeInterval = 0.3
         
-        let moveA = SKAction.moveTo(spriteB.position, duration: Duration)
-        moveA.timingMode = .EaseOut
-        spriteA.runAction(moveA, completion: completion)
+        let moveToA = SKAction.moveTo(spriteA.position, duration: Duration)
+        moveToA.timingMode = .EaseOut
+
+        let moveToB = SKAction.moveTo(spriteB.position, duration: Duration)
+        moveToB.timingMode = .EaseOut
         
-        let moveB = SKAction.moveTo(spriteA.position, duration: Duration)
-        moveB.timingMode = .EaseOut
-        spriteB.runAction(moveB)
+        spriteA.runAction(moveToB, completion: completion)
+        spriteB.runAction(moveToA)
+    }
+    
+    func animateInvalidSwap(swap: Swap, completion: () -> ())
+    {
+        let spriteA = swap.friendA.sprite!
+        let spriteB = swap.friendB.sprite!
+        
+        spriteA.zPosition = 100
+        spriteB.zPosition =  90
+        
+        let Duration: NSTimeInterval = 0.2
+        
+        let moveToA = SKAction.moveTo(spriteA.position, duration: Duration)
+        moveToA.timingMode = .EaseOut
+        
+        let moveToB = SKAction.moveTo(spriteB.position, duration: Duration)
+        moveToB.timingMode = .EaseOut
+        
+        spriteA.runAction(SKAction.sequence([moveToB, moveToA]), completion: completion)
+        spriteB.runAction(SKAction.sequence([moveToA, moveToB]))
     }
     
     // TODO: change this whole approach to high-lighting when using Facebook profile images instead

@@ -32,12 +32,22 @@ class GameViewController: UIViewController
     func handleSwipe(swap: Swap)
     {
         view.userInteractionEnabled = false
-        
-        level.performSwap(swap)
-        
-        scene.animateSwap(swap)     // using trailing closure syntax here instead of "completion: {}"
+
+        if level.isPossibleSwap(swap)
         {
-            self.view.userInteractionEnabled = true
+            level.performSwap(swap)
+            
+            scene.animateValidSwap(swap)     // using trailing closure syntax here instead of "completion: {}"
+            {
+                self.view.userInteractionEnabled = true
+            }
+        }
+        else
+        {
+            scene.animateInvalidSwap(swap)
+            {
+                self.view.userInteractionEnabled = true
+            }
         }
     }
     
